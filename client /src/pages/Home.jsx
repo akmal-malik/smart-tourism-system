@@ -14,7 +14,7 @@ function Home() {
             Welcome to Tourism Portal
           </h1>
           <p className="text-xl md:text-2xl mb-8 drop-shadow">
-            Explore Bayan NG Dolores – Your gateway to nature and peace.
+            Explore Bangkong Kahoy – Your gateway to nature and peace.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
