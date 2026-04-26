@@ -14,7 +14,7 @@ function Home() {
             Welcome to Tourism Portal
           </h1>
           <p className="text-xl md:text-2xl mb-8 drop-shadow">
-            Explore Bangkong Kahoy Valley – Your gateway to nature and peace.
+            Explore Bayan NG Dolores – Your gateway to nature and peace.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
@@ -83,13 +83,13 @@ function Home() {
       <div id="about" className="py-20 px-6 md:px-10 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6 text-gray-800">
-            About Bangkong Kahoy Valley
+            About Bayan NG Dolores
           </h2>
 
           <div className="w-24 h-1 bg-green-500 mx-auto mb-8 rounded-full"></div>
 
           <p className="text-lg text-gray-600 leading-relaxed">
-            Bangkong Kahoy Valley is a unique eco-tourism destination known for its lush bamboo forests,
+            Bayan NG Dolores is a unique eco-tourism destination known for its lush bamboo forests,
             peaceful environment, and natural beauty. This platform helps visitors book their stay,
             explore tourism data, and access important information easily – all in one place.
           </p>
@@ -112,7 +112,7 @@ function Home() {
         </h2>
 
         <p className="text-gray-600">
-          Beautiful snapshots of Bangkong Kahoy Valley (you can expand this later)
+          Beautiful snapshots of Bayan NG Dolores (you can expand this later)
         </p>
       </div>
 
