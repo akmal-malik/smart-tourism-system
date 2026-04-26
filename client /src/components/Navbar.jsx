@@ -38,31 +38,31 @@ function Navbar() {
               </Link>
 
               {/* DROPDOWN */}
-             {open && (
-  <div className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl overflow-hidden">
-    
-    <Link to="/" className="block px-4 py-2 hover:bg-gray-100">
-      Overview
-    </Link>
+              {open && (
+                <div className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl overflow-hidden">
+                  
+                  <Link to="/" className="block px-4 py-2 hover:bg-gray-100">
+                    Overview
+                  </Link>
 
-    <Link to="/home/about" className="block px-4 py-2 hover:bg-gray-100">
-      About Us
-    </Link>
+                  <Link to="/home/about" className="block px-4 py-2 hover:bg-gray-100">
+                    About Us
+                  </Link>
 
-    <Link to="/home/attractions" className="block px-4 py-2 hover:bg-gray-100">
-      Attractions
-    </Link>
+                  <Link to="/home/attractions" className="block px-4 py-2 hover:bg-gray-100">
+                    Attractions
+                  </Link>
 
-    <Link to="/home/gallery" className="block px-4 py-2 hover:bg-gray-100">
-      Gallery
-    </Link>
+                  <Link to="/home/gallery" className="block px-4 py-2 hover:bg-gray-100">
+                    Gallery
+                  </Link>
 
-    <Link to="/home/contact" className="block px-4 py-2 hover:bg-gray-100">
-      Contact
-    </Link>
+                  <Link to="/home/contact" className="block px-4 py-2 hover:bg-gray-100">
+                    Contact
+                  </Link>
 
-  </div>
-)}
+                </div>
+              )}
             </div>
 
             {/* OTHER LINKS */}
