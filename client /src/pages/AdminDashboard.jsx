@@ -9,6 +9,7 @@ function AdminDashboard() {
   // NEW STATES
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [replyMessage, setReplyMessage] = useState("");
+  const [selectedBooking, setSelectedBooking] = useState(null); // ✅ NEW
 
   const navigate = useNavigate();
 
@@ -42,25 +43,25 @@ function AdminDashboard() {
 
   // 🔥 DELETE BOOKING
   const handleDelete = async (id) => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  const res = await fetch(`http://localhost:5003/api/bookings/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: token
+    const res = await fetch(`http://localhost:5003/api/bookings/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: token
+      }
+    });
+
+    const data = await res.json();
+    console.log("DELETE RESPONSE:", data);
+
+    if (!res.ok) {
+      alert("Delete failed");
+      return;
     }
-  });
 
-  const data = await res.json();
-  console.log("DELETE RESPONSE:", data);
-
-  if (!res.ok) {
-    alert("Delete failed");
-    return;
-  }
-
-  setBookings(bookings.filter(b => b._id !== id));
-};
+    setBookings(bookings.filter(b => b._id !== id));
+  };
 
   // 📩 SEND REPLY
   const handleReply = async () => {
@@ -121,13 +122,20 @@ function AdminDashboard() {
             <tbody>
               {bookings.length > 0 ? (
                 bookings.map((b) => (
-                  <tr key={b._id} className="border-b">
+                  <tr
+                    key={b._id}
+                    className="border-b cursor-pointer hover:bg-gray-100"
+                    onClick={() => setSelectedBooking(b)} // ✅ CLICK
+                  >
                     <td className="p-3">{b.name}</td>
                     <td className="p-3">{b.date}</td>
                     <td className="p-3">{b.guests}</td>
                     <td className="p-3">
                       <button
-                        onClick={() => handleDelete(b._id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // ✅ prevent modal open
+                          handleDelete(b._id);
+                        }}
                         className="bg-red-500 text-white px-2 py-1 rounded"
                       >
                         Delete
@@ -188,7 +196,38 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* 🔥 REQUEST MODAL */}
+      {/* 🔥 BOOKING MODAL */}
+      {selectedBooking && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded w-96">
+
+            <h2 className="text-xl font-bold mb-2">
+              {selectedBooking.name}
+            </h2>
+
+            <p><strong>Email:</strong> {selectedBooking.email}</p>
+            <p><strong>Phone:</strong> {selectedBooking.phone}</p>
+            <p><strong>Date:</strong> {selectedBooking.date}</p>
+            <p><strong>Guests:</strong> {selectedBooking.guests}</p>
+            <p><strong>Package:</strong> {selectedBooking.package}</p>
+
+            <p className="mt-3">
+              <strong>Special Requests:</strong><br />
+              {selectedBooking.specialRequests || "None"}
+            </p>
+
+            <button
+              onClick={() => setSelectedBooking(null)}
+              className="mt-4 bg-gray-300 px-4 py-2 rounded"
+            >
+              Close
+            </button>
+
+          </div>
+        </div>
+      )}
+
+      {/* REQUEST MODAL */}
       {selectedRequest && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded w-96">

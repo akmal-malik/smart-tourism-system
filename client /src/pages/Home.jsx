@@ -464,9 +464,13 @@ function Home() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full bg-gray-100 hover:bg-green-600 text-gray-700 hover:text-white transition-all duration-300 py-2 rounded-lg font-medium">
-                    Book Package
-                  </button>
+<Link
+  to="/booking"
+  state={{ selectedPackage: pkg.name }}
+  className="block text-center w-full bg-gray-100 hover:bg-green-600 text-gray-700 hover:text-white py-2 rounded-lg"
+>
+  Book Package
+</Link>
                 </div>
               </div>
             ))}
