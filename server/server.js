@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bookingRoutes = require("./routes/bookingRoutes");
 const requestRoutes = require("./routes/requestRoutes");
+const adminAuthRoutes = require("./routes/adminAuth");
 
 // ✅ FIRST: middleware
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.json());
 // ✅ THEN: routes
 app.use("/api", bookingRoutes);
 app.use("/api", requestRoutes);
+app.use("/api/admin", adminAuthRoutes);
 
 app.get("/", (req, res) => {
   res.send("API Running 🚀");

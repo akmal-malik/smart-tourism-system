@@ -1,10 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../assets/logo.png";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const [showLogo, setShowLogo] = useState(false); // 👈 NEW
+  const [showLogo, setShowLogo] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+  const navigate = useNavigate();
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+
+    // 👉 Track clicks for admin trigger
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+
+    // 🔥 If 5 clicks → go to admin login
+    if (newCount === 5) {
+      navigate("/admin");
+      setClickCount(0);
+      return;
+    }
+
+    // 👉 Normal click → show popup
+    setShowLogo(true);
+
+    // 👉 Reset counter if user pauses
+    setTimeout(() => setClickCount(0), 2000);
+  };
 
   return (
     <>
@@ -17,10 +40,7 @@ function Navbar() {
               <img 
                 src={logo} 
                 alt="Dolores Quezon Logo" 
-                onClick={(e) => {
-                  e.preventDefault(); // 👈 stop navigation
-                  setShowLogo(true);  // 👈 open popup
-                }}
+                onClick={handleLogoClick}
                 className="w-12 h-12 cursor-pointer rounded-full object-cover border-2 border-white shadow-md hover:scale-110 transition"
               />
               <span className="text-white text-xl font-bold tracking-tight">
@@ -44,7 +64,6 @@ function Navbar() {
                   Home
                 </Link>
 
-                {/* DROPDOWN */}
                 {open && (
                   <div className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl overflow-hidden">
                     

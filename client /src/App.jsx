@@ -6,9 +6,13 @@ import Tourism from "./pages/Tourism";
 import Booking from "./pages/Booking";
 import Data from "./pages/Data";
 import Request from "./pages/Request";
-import Admin from "./pages/Admin";
 
-// NEW PAGES (create these)
+// 🔥 NEW ADMIN SYSTEM
+import AdminAuth from "./pages/AdminAuth";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// OTHER PAGES
 import About from "./pages/About";
 import Attractions from "./pages/Attractions";
 import Gallery from "./pages/Gallery";
@@ -18,6 +22,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+
       <Routes>
         {/* MAIN ROUTES */}
         <Route path="/" element={<Home />} />
@@ -25,7 +30,17 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/data" element={<Data />} />
         <Route path="/request" element={<Request />} />
-        <Route path="/admin" element={<Admin />} />
+
+        {/* 🔐 ADMIN */}
+        <Route path="/admin" element={<AdminAuth />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
 
         {/* HOME SUB ROUTES */}
         <Route path="/home/about" element={<About />} />
