@@ -662,7 +662,7 @@ function Home() {
 
       {/* FOOTER */}
       <div className="bg-gray-900 text-gray-400 py-8 px-6 text-center">
-        <p>&copy; 2025 Bangkong Kahoy Valley Tourism Portal. All rights reserved.</p>
+        <p>&copy; 2026 Bangkong Kahoy Valley Tourism Portal. All rights reserved.</p>
       </div>
     </div>
   );

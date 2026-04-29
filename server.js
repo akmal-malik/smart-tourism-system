@@ -9,7 +9,11 @@ const adminAuthRoutes = require("./routes/adminAuth");
 
 // Middleware
 app.use(cors({
-  origin: "*"
+  origin: [
+    "https://polite-field-0b92ff700.7.azurestaticapps.net"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 app.use(express.json());
 
