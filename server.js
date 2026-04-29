@@ -2,27 +2,41 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const bookingRoutes = require("./routes/bookingRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const adminAuthRoutes = require("./routes/adminAuth");
 
-// ✅ FIRST: middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ THEN: routes
+// Routes
 app.use("/api", bookingRoutes);
 app.use("/api", requestRoutes);
 app.use("/api/admin", adminAuthRoutes);
 
+// TEST ROOT
 app.get("/", (req, res) => {
   res.send("API Running 🚀");
 });
 
-mongoose.connect("mongodb+srv://akmalmalik6899_db_user:H62CoJOu1ug3vY3q@tourism-website.odl1blr.mongodb.net/?appName=Tourism-Website")
+// ✅ ADD THIS (VERY IMPORTANT)
+app.get("/api/stats", async (req, res) => {
+  res.json({
+    totalBookings: 0,
+    totalVisitors: 0
+  });
+});
+
+// MongoDB
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
-app.listen(5003, () => {
-  console.log("Server running on port 5003");
+// Port fix
+const PORT = process.env.PORT || 5003;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });
