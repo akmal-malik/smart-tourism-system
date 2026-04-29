@@ -30,9 +30,11 @@ function AdminAuth() {
 
     setLoading(true);
 
-    const url = isLogin
-      ? "http://localhost:5003/api/admin/login"
-      : "http://localhost:5003/api/admin/signup";
+    const BASE_URL = "https://tourism-backendd-ghf2cpfafedcgucr.eastasia-01.azurewebsites.net";
+
+const url = isLogin
+  ? `${BASE_URL}/api/admin/login`
+  : `${BASE_URL}/api/admin/signup`;
 
     try {
       const res = await fetch(url, {
