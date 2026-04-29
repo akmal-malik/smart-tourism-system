@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/logoo.png";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ function Navbar() {
                 className="w-12 h-12 cursor-pointer rounded-full object-cover border-2 border-white shadow-md hover:scale-110 transition"
               />
               <span className="text-white text-xl font-bold tracking-tight">
-                Tourism Portal
+                DANTAYAN
               </span>
             </Link>
 
@@ -92,12 +92,14 @@ function Navbar() {
               </div>
 
               {/* OTHER LINKS */}
-              <Link 
-                to="/tourism" 
-                className="text-white hover:text-amber-200 transition-colors duration-200 font-medium px-2 py-1"
-              >
-                Tourism
-              </Link>
+             <a
+  href="https://dolores.quezon.gov.ph/e-brochure/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-white hover:text-amber-200 transition-colors duration-200 font-medium px-2 py-1"
+>
+  Tourism
+</a>
 
               <Link 
                 to="/booking" 

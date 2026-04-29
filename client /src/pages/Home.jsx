@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import hero from "../assets/hero.png";
+import more from "../assets/more.png";
 
 function Home() {
   // State for FAQ accordion
@@ -23,17 +25,6 @@ function Home() {
   });
   const [contactStatus, setContactStatus] = useState("");
 
-  // --- Stats counter states ---
-  const [visitorsCount, setVisitorsCount] = useState(0);
-  const [ecoCabinsCount, setEcoCabinsCount] = useState(0);
-  const [ratingCount, setRatingCount] = useState(0);
-  const [trailsCount, setTrailsCount] = useState(0);
-
-  // Refs for Intersection Observer and intervals
-  const statsRef = useRef(null);
-  const hasAnimated = useRef(false);
-  const intervalsRef = useRef([]);
-
   // FAQ data
   const faqs = [
     {
@@ -53,25 +44,19 @@ function Home() {
     },
   ];
 
-  // Packages data
+  // Packages data - updated with only names and durations (no price or features)
   const packages = [
     {
-      name: "Eco Cabin Stay",
-      duration: "2 Days / 1 Night",
-      price: "₱3,500",
-      features: ["Private bamboo cabin", "Breakfast included", "Guided nature walk", "Bonfire access"],
+      name: "Dolores: Where Every Soul Finds Peace",
+      duration: "As per Itinerary",
     },
     {
-      name: "Adventure Package",
-      duration: "3 Days / 2 Nights",
-      price: "₱6,800",
-      features: ["Deluxe cottage", "All meals included", "River trekking", "Bamboo rafting", "Night safari"],
+      name: "Car Camping",
+      duration: "As per Itinerary",
     },
     {
-      name: "Family Getaway",
-      duration: "3 Days / 2 Nights",
-      price: "₱9,500",
-      features: ["Family-sized villa", "Kids' activities", "BBQ dinner", "Swimming pool access", "Picnic area"],
+      name: "Regular Camping using tents",
+      duration: "As per Itinerary",
     },
   ];
 
@@ -116,96 +101,6 @@ function Home() {
       setTimeout(() => setContactStatus(""), 3000);
     }
   };
-
-  // --- Counter animation logic ---
-  const startCounters = () => {
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-
-    // Helper to clear all intervals on completion or unmount
-    const clearAllIntervals = () => {
-      intervalsRef.current.forEach(interval => clearInterval(interval));
-      intervalsRef.current = [];
-    };
-
-    // 1. Visitors: 0 -> 10000 (step 150, interval 12ms) => ~0.8 sec
-    const visitorsInterval = setInterval(() => {
-      setVisitorsCount(prev => {
-        const next = prev + 150;
-        if (next >= 10000) {
-          clearInterval(visitorsInterval);
-          return 10000;
-        }
-        return next;
-      });
-    }, 12);
-    intervalsRef.current.push(visitorsInterval);
-
-    // 2. Eco Cabins: 0 -> 50 (step 1, interval 20ms) => ~1 sec
-    const cabinsInterval = setInterval(() => {
-      setEcoCabinsCount(prev => {
-        const next = prev + 1;
-        if (next >= 50) {
-          clearInterval(cabinsInterval);
-          return 50;
-        }
-        return next;
-      });
-    }, 20);
-    intervalsRef.current.push(cabinsInterval);
-
-    // 3. Rating: 0 -> 4.9 (step 0.1, interval 35ms) => slower for decimal
-    const ratingInterval = setInterval(() => {
-      setRatingCount(prev => {
-        const next = parseFloat((prev + 0.1).toFixed(1));
-        if (next >= 4.9) {
-          clearInterval(ratingInterval);
-          return 4.9;
-        }
-        return next;
-      });
-    }, 35);
-    intervalsRef.current.push(ratingInterval);
-
-    // 4. Trails: 0 -> 15 (step 1, interval 45ms) => slowest for smallest number
-    const trailsInterval = setInterval(() => {
-      setTrailsCount(prev => {
-        const next = prev + 1;
-        if (next >= 15) {
-          clearInterval(trailsInterval);
-          return 15;
-        }
-        return next;
-      });
-    }, 45);
-    intervalsRef.current.push(trailsInterval);
-  };
-
-  // Intersection Observer to trigger counters when stats section is visible
-  useEffect(() => {
-    const currentStatsRef = statsRef.current;
-    if (!currentStatsRef) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            startCounters();
-            observer.disconnect(); // Run only once
-          }
-        });
-      },
-      { threshold: 0.3 } // Trigger when 30% of the section is visible
-    );
-
-    observer.observe(currentStatsRef);
-
-    return () => {
-      observer.disconnect();
-      // Clear any intervals if component unmounts before counters finish
-      intervalsRef.current.forEach(interval => clearInterval(interval));
-    };
-  }, []);
 
   // SVG Icons
   const NatureIcon = () => (
@@ -262,9 +157,10 @@ function Home() {
     <div className="font-sans">
       {/* HERO SECTION */}
       <div
-        id="overview"
-        className="relative bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')] bg-cover bg-center h-[85vh] flex items-center justify-center"
-      >
+  id="overview"
+  style={{ backgroundImage: `url(${hero})` }}
+  className="relative bg-cover bg-center h-[85vh] flex items-center justify-center"
+>
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
 
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
@@ -272,34 +168,37 @@ function Home() {
             <span className="text-sm font-medium tracking-wide">Eco-Tourism Destination</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-            Welcome to Tourism Portal
+           Halika sa DANTAYAN! 
           </h1>
-          <p className="text-xl md:text-2xl mb-8 drop-shadow text-gray-100">
-            Explore Bangkong Kahoy – Your gateway to nature and peace.
+          <p className="text-xl md:text-2xl mb-8 drop-shadow text-gray-100 ">
+            Parito muna tayo sa Bangkong Kahoy Valley!
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/booking"
-              className="bg-green-600 hover:bg-green-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
-            >
-              Book Now
-            </Link>
+  {/* Dark Green */}
+  <Link
+    to="/booking"
+    className="bg-green-700 hover:bg-green-800 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
+  >
+    Book Now
+  </Link>
 
-            <Link
-              to="/data"
-              className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
-            >
-              View Data
-            </Link>
+  {/* Medium Green */}
+  <Link
+    to="/data"
+    className="bg-green-500 hover:bg-green-600 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
+  >
+    View Data
+  </Link>
 
-            <Link
-              to="/request"
-              className="bg-gray-800 hover:bg-gray-900 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
-            >
-              Request Data
-            </Link>
-          </div>
+  {/* Light Green */}
+  <Link
+    to="/request"
+    className="bg-green-300 hover:bg-green-400 text-gray-900 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl px-6 py-3 rounded-lg shadow-lg font-semibold"
+  >
+    Request Data
+  </Link>
+</div>
         </div>
 
         {/* Scroll indicator */}
@@ -363,41 +262,16 @@ function Home() {
         </div>
       </div>
 
-      {/* STATS SECTION - ANIMATED COUNTERS */}
-      <div ref={statsRef} className="bg-gradient-to-r from-green-700 to-green-800 py-12 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center text-white">
-          <div className="space-y-2">
-            <div className="text-4xl font-bold">
-              {visitorsCount >= 1000 ? `${Math.floor(visitorsCount / 1000)}K+` : visitorsCount}
-            </div>
-            <div className="text-green-100">Happy Visitors</div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-4xl font-bold">{Math.floor(ecoCabinsCount)}+</div>
-            <div className="text-green-100">Eco Cabins</div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-4xl font-bold">{ratingCount.toFixed(1)}</div>
-            <div className="text-green-100">Rating Average</div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-4xl font-bold">{Math.floor(trailsCount)}+</div>
-            <div className="text-green-100">Nature Trails</div>
-          </div>
-        </div>
-      </div>
-
       {/* ABOUT SECTION */}
       <div id="about" className="py-20 px-6 md:px-10 bg-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6 text-gray-800">About Bayan NG Dolores</h2>
+          <h2 className="text-4xl font-bold mb-6 text-gray-800">Anong Meron Dito Sa’min</h2>
 
           <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
 
           <p className="text-lg text-gray-600 leading-relaxed">
-            Bayan NG Dolores is a unique eco-tourism destination known for its lush bamboo forests, peaceful
-            environment, and natural beauty. This platform helps visitors book their stay, explore tourism data, and
-            access important information easily – all in one place.
+            Bangkong Kahoy Valley is a destination full of surprises!<br></br>
+            This is primarily a campsite that lets you live by the nature
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -412,14 +286,16 @@ function Home() {
             </div>
           </div>
 
-          <div className="mt-10">
-            <Link
-              to="/tourism"
-              className="inline-block bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 transition-all duration-300 px-8 py-3 rounded-full font-medium shadow-lg hover:shadow-xl"
-            >
-              Learn More
-            </Link>
-          </div>
+        <div className="mt-10">
+  <a
+    href="https://dolores.quezon.gov.ph/e-brochure/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 transition-all duration-300 px-8 py-3 rounded-full font-medium shadow-lg hover:shadow-xl"
+  >
+    Learn More
+  </a>
+</div>
         </div>
       </div>
 
@@ -440,9 +316,12 @@ function Home() {
               >
                 <div className="h-48 bg-gradient-to-br from-green-400 to-green-600 relative">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-green-800 font-bold">
-                    {pkg.price}
-                  </div>
+                  {/* Only show price badge if price exists */}
+                  {pkg.price && (
+                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-green-800 font-bold">
+                      {pkg.price}
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-gray-800 mb-1">{pkg.name}</h3>
@@ -450,27 +329,30 @@ function Home() {
                     <ClockIcon />
                     <span>{pkg.duration}</span>
                   </div>
-                  <ul className="space-y-2 mb-6">
-                    {pkg.features.map((feature, i) => (
-                      <li key={i} className="text-gray-600 text-sm flex items-center">
-                        <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-<Link
-  to="/booking"
-  state={{ selectedPackage: pkg.name }}
-  className="block text-center w-full bg-gray-100 hover:bg-green-600 text-gray-700 hover:text-white py-2 rounded-lg"
->
-  Book Package
-</Link>
+                  {/* Only show features if they exist and are not empty */}
+                  {pkg.features && pkg.features.length > 0 && (
+                    <ul className="space-y-2 mb-6">
+                      {pkg.features.map((feature, i) => (
+                        <li key={i} className="text-gray-600 text-sm flex items-center">
+                          <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <Link
+                    to="/booking"
+                    state={{ selectedPackage: pkg.name }}
+                    className="block text-center w-full bg-gray-100 hover:bg-green-600 text-gray-700 hover:text-white py-2 rounded-lg"
+                  >
+                    Book Package
+                  </Link>
                 </div>
               </div>
             ))}
@@ -489,10 +371,10 @@ function Home() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09",
-              "https://images.unsplash.com/photo-1441974231531-c622288dbd9f",
-              "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-            ].map((img, idx) => (
+  "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09",
+  more,
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+].map((img, idx) => (
               <div
                 key={idx}
                 className="group relative overflow-hidden rounded-2xl shadow-lg h-64 cursor-pointer"
